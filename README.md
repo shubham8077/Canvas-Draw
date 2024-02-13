@@ -1,0 +1,2 @@
+# Canvas-Draw
+ This HTML project is a simple canvas drawing application allowing users to create basic shapes like rectangles, circles, semicircles, and lines. It offers input fields for defining shape properties such as position, dimensions, color, and line size. Users can draw shapes on the canvas by clicking corresponding buttons. The canvas displays the drawn shapes and provides coordinate feedback upon mouse hover. Functionality includes clearing the canvas and saving the drawing as a PNG image.

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-slate-900">
+    <header class="bg-slate-800 text-white font-bold text-2xl text-center block">Canvas Draw🎨</header>
+    <div id="box" class="flex">
+        <div class="p-2 bg-slate-900 h-screen">
+            <p class="text-white font-bold text-center bg-blue-600 rounded-lg">Draw Rectangle</p>
+            <div>
+                <input type="number" class="rounded-md" id="ux" placeholder="position x">
+                <input type="number" class="rounded-md mb-2" id="uy" placeholder="position y"><br>
+                <input type="number" class="rounded-md" id="w" placeholder="width">
+                <input type="number" class="rounded-md mb-2" id="h" placeholder="height"><br>
+                <div class="flex">
+                    <input type="color" class="rounded-md w-1/2 mr-2" id="clr">
+                    <button onclick="drawing()"
+                        class="btn bg-lime-400 font-bold px-1 rounded-lg border-2 border-black hover:bg-lime-500 w-1/2">Rectangle</button>
+                </div>
+
+            </div>
+            <br>
+            <hr><br>
+            <p class="text-white font-bold text-center bg-blue-600 rounded-lg">Draw Circle</p>
+            <div>
+                <input type="number" class="rounded-md" id="ax" placeholder="starting position x">
+                <input type="number" class="rounded-md mb-2" id="ay" placeholder="starting position y"><br>
+                <input type="number" class="rounded-md" id="ar" placeholder="Radius">
+                <input type="number" class="rounded-md mb-2" id="lsc" placeholder="Line size"><br>
+                <div class="flex">
+                    <input type="color" class="rounded-md w-1/2 mr-2" id="clrc"><br>
+                    <button onclick="circle()" class="bg-lime-400 font-bold px-1 rounded-lg border-2
+                border-black hover:bg-lime-500 w-1/2">Circle</button>
+                    <button onclick="semicircle()" class="bg-lime-400 font-bold px-1 rounded-lg border-2
+                border-black hover:bg-lime-500 w-1/2">Semicircle</button>
+                </div>
+            </div>
+            <br>
+            <hr><br>
+            <p class="text-white font-bold text-center bg-blue-600 rounded-lg">Draw Line</p>
+            <div>
+                <input type="number" class="rounded-md" id="mw" placeholder="starting position x">
+                <input type="number" class="rounded-md mb-2" id="mh" placeholder="starting position y"><br>
+                <input type="number" class="rounded-md" id="lw" placeholder="end position x">
+                <input type="number" class="rounded-md mb-2" id="lh" placeholder="end position y"><br>
+                <div class="flex">
+                    <input type="number" class="rounded-md w-1/2 mr-2 h-6" id="ls" placeholder="Line size">
+                    <button onclick="line()" class="bg-lime-400 font-bold px-1 rounded-lg border-2
+                    border-black hover:bg-lime-500 w-1/2">Line</button>
+                </div>
+            </div>
+            <hr>
+            <button onclick="clearCanvas()" class="bg-red-400 font-bold px-1 m-1 rounded-lg border-2
+            border-black hover:bg-red-500 mx-auto w-full">Clear</button>
+
+            <button onclick="downloadImage()" class="bg-amber-400 font-bold px-1 m-1 rounded-lg border-2
+                        border-black hover:bg-amber-500 mx-auto w-full"><a>Save</a></button>
+        </div>
+        <div>
+
+            <canvas id="c" width="780" height="450" style="border: 1px solid black;" onmousemove="co(event)"
+                class="bg-white"></canvas>
+
+            <p class="text-white px-2">Hover mouse in canvas to know Coordinates</p>
+            <p id="co" class="text-white font-semibold px-2 text-center"></p>
+
+        </div>
+    </div>
+    <script>
+        let c = document.getElementById('c');
+        let ctx = c.getContext('2d');
+        function co(e) {
+            let rect = c.getBoundingClientRect();
+            let x = Math.floor(e.clientX - rect.left); // or Math.round() for rounding to the nearest integer
+            let y = Math.floor(e.clientY - rect.top);  // or Math.round() for rounding to the nearest integer
+            let co = document.getElementById('co').innerHTML = "Coordinates:" + "x=" + x + " y=" + y;
+        }
+
+
+
+        function drawing() {
+            let x = parseInt(document.getElementById('ux').value);
+            let y = parseInt(document.getElementById('uy').value);
+            let w = parseInt(document.getElementById('w').value);
+            let h = parseInt(document.getElementById('h').value);
+
+            let clr = document.getElementById('clr').value;
+
+            //draw rectangle
+            ctx.fillStyle = clr;
+            ctx.fillRect(x, y, w, h);
+        }
+
+        function line() {
+            let mw = parseInt(document.getElementById('mw').value);
+            let mh = parseInt(document.getElementById('mh').value);
+            let lw = parseInt(document.getElementById('lw').value);
+            let lh = parseInt(document.getElementById('lh').value);
+            let ls = parseInt(document.getElementById('ls').value);
+            //draw line
+            ctx.beginPath();
+            ctx.moveTo(mw, mh);
+            ctx.lineTo(lw, lh);
+            ctx.lineWidth = ls;
+            ctx.stroke();
+        }
+
+        function circle() {
+            let ax = parseInt(document.getElementById('ax').value);
+            let ay = parseInt(document.getElementById('ay').value);
+            let ar = parseInt(document.getElementById('ar').value);
+            let ls = parseInt(document.getElementById('lsc').value);
+            let clrc = document.getElementById('clrc').value;
+
+            //draw circle
+            ctx.beginPath();
+            ctx.fillStyle = clrc;
+            ctx.arc(ax, ay, ar, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.lineWidth = ls;
+            ctx.stroke();
+
+        }
+
+        function semicircle() {
+            let ax = parseInt(document.getElementById('ax').value);
+            let ay = parseInt(document.getElementById('ay').value);
+            let ar = parseInt(document.getElementById('ar').value);
+            let ls = parseInt(document.getElementById('lsc').value);
+            let clrc = document.getElementById('clrc').value;
+
+            ctx.beginPath();
+            ctx.fillStyle = clrc;
+            ctx.arc(ax, ay, ar, 0, Math.PI);
+            ctx.fill();
+            ctx.lineWidth = ls;
+            ctx.stroke();
+        }
+
+
+        function clearCanvas() {
+
+            ctx.clearRect(0, 0, c.width, c.height);
+
+        }
+
+        function downloadImage() {
+            // Convert canvas content to data URL
+            let dataURL = c.toDataURL('image/png');
+            // Create a temporary anchor element
+            let link = document.querySelector('a');
+            link.href = dataURL;
+            link.download = 'canvas_image.png';
+            // Simulate click on the anchor element to trigger download
+            link.click();
+        }
+
+    </script>
+
+</body>
+
+</html>
